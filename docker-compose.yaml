@@ -11,20 +11,20 @@ services:
     expose:
       - 8001
 
-  # webrtc_client:
-  #   build: ./client
-  #   container_name: webrtc_client
-  #   working_dir: /app
-  #   ports:
-  #     - "8002:8002"
-  #   volumes:
-  #     - client_volume:/app/node_modules
-  #     - .client:/app
-  #   depends_on:
-  #     - webrtc_server
-  #   expose:
-  #     - 8002
+  webrtc_client:
+    build: ./client
+    container_name: webrtc_client
+    working_dir: /app
+    ports:
+      - "8002:8002"
+    volumes:
+      - client_volume:/app/node_modules
+      - .client:/app
+    depends_on:
+      - webrtc_server
+    expose:
+      - 8002
 
 volumes:
   server_volume:
-  # client_volume:
+  client_volume:
