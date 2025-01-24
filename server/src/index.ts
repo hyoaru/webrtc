@@ -1,11 +1,23 @@
 import dotenv from "dotenv";
-import { app } from "./instances";
-import bodyParser from "body-parser";
+import { app, server, wss } from "./instances";
+import express from "express";
+import WebSocket from "ws";
 
 export const createApp = () => {
   dotenv.config();
+  let clients: WebSocket[] = [];
 
-  app.use(bodyParser.json());
+  wss.on("connection", (ws) => {
+    console.log("Client connected");
+    clients.push(ws);
 
-  return app;
+    ws.on("close", () => {
+      console.log("Client disconnected");
+      clients = clients.filter((client) => client !== ws);
+    });
+  });
+
+  app.use(express.static(__dirname));
+
+  return server;
 };
